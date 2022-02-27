@@ -34,13 +34,18 @@ public class AppManager : MonoBehaviour
     void Start()
     {
         cam = Camera.main;
+
         glbDownloader = GetComponent<GLBDownloader>();
         glbViewer = GetComponent<GLBViewer>();
         foreach(glbModel item in items){
             item.button.onClick.AddListener(() => {
+                glbViewer.buttonPressed = true;
                 StartCoroutine(HandleModelClick(item.url));
             });
         }
+
+        progressBar.maxValue = 1+glbDownloader.progressBarOffset;
+
     }
 
 
@@ -60,7 +65,7 @@ public class AppManager : MonoBehaviour
             StartCoroutine(glbDownloader.DownloadGLBRoutine(url, localPathTmp));
 
             Debug.Log("Monitoring start");
-            progressBar.gameObject.SetActive(true);
+            // progressBar.gameObject.SetActive(true);
             foreach(glbModel item in items){
                 item.button.interactable = false;
             }
@@ -68,7 +73,7 @@ public class AppManager : MonoBehaviour
 
             Debug.Log("reset UI");
             progressBar.value = 0f;
-            progressBar.gameObject.SetActive(false);
+            // progressBar.gameObject.SetActive(false);
             foreach(glbModel item in items){
                 item.button.interactable = true;
             }
@@ -78,7 +83,8 @@ public class AppManager : MonoBehaviour
                 currentGlbModel.button.transform.GetChild(0).GetComponent<TextMeshProUGUI>().color = successDownloadColor;
             } else {
                 Debug.Log("Error");
-                DisplayMsgError(glbDownloader.errorMsg);
+                StartCoroutine(DisplayMsgError(glbDownloader.errorMsg));
+                yield break;
             }
         }
 
@@ -98,40 +104,11 @@ public class AppManager : MonoBehaviour
         return item.localPath.Length>0;
     }
 
-    bool IsDownloadSuc(glbModel item){
-        return File.Exists(item.localPath);
-    }
 
     void Update(){
         if(progressBar.IsActive()){
             progressBar.value = Mathf.Lerp(progressBar.value, glbDownloader.progress, 0.1f);
         }
-
-        if(glbViewer.displayedObject!=null){
-            if(Input.touchCount > 0){
-                Ray ray = cam.ScreenPointToRay(Input.GetTouch(0).position);
-                RaycastHit hit;
-                if(Physics.Raycast(ray, out hit))
-                {
-                    if(hit.transform.tag == "item"){
-                        Debug.Log("hit item");
-                    }
-                }
-            }
-
-            if(Input.GetMouseButtonDown(0)){
-                Ray ray = cam.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if(Physics.Raycast(ray, out hit))
-                {
-                    if(hit.transform.tag == "item"){
-                        Debug.Log("hit item");
-                    }
-                }
-            }
-
-        }
-
     }
 
 

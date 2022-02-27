@@ -12,6 +12,7 @@ public class GLBDownloader : MonoBehaviour
     [HideInInspector] public float progress = 0;
     [HideInInspector] public string errorMsg;
 
+    public float progressBarOffset = 0.05f;
 
     private UnityWebRequest uwr;
 
@@ -31,10 +32,10 @@ public class GLBDownloader : MonoBehaviour
         uwr.downloadHandler = new DownloadHandlerFile(localPath);
         yield return uwr.SendWebRequest();
         if (uwr.result != UnityWebRequest.Result.Success){
-            Debug.LogError(uwr.error);
+            Debug.Log(uwr.error);
+            errorMsg = uwr.error;
             uwr = null;
             progress = 0 ;
-            errorMsg = uwr.error;
         } else {
             Debug.Log("File successfully downloaded and saved to " + localPath);
             uwr = null;
@@ -49,7 +50,7 @@ public class GLBDownloader : MonoBehaviour
 
     public IEnumerator MonitorProgressRoutine(){
         while(uwr!=null){
-            progress = uwr.downloadProgress;
+            progress = uwr.downloadProgress + progressBarOffset;
             yield return new WaitForSecondsRealtime(0.05f);
         }
     }
