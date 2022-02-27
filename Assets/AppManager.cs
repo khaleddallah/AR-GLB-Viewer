@@ -20,6 +20,8 @@ public class AppManager : MonoBehaviour
     public glbModel[] items;
 
     public Slider progressBar;
+    public float progressBarOffset = 0.05f;
+
     public TextMeshProUGUI noteText;
     public Color successDownloadColor = Color.green;
     
@@ -29,12 +31,10 @@ public class AppManager : MonoBehaviour
     Camera cam;
 
 
-
     // Start is called before the first frame update
     void Start()
     {
         cam = Camera.main;
-
         glbDownloader = GetComponent<GLBDownloader>();
         glbViewer = GetComponent<GLBViewer>();
         foreach(glbModel item in items){
@@ -43,9 +43,17 @@ public class AppManager : MonoBehaviour
                 StartCoroutine(HandleModelClick(item.url));
             });
         }
+        progressBar.maxValue = 1 + progressBarOffset;
+    }
 
-        progressBar.maxValue = 1+glbDownloader.progressBarOffset;
 
+    void Update(){
+        if(glbDownloader.progress>0){
+            progressBar.value = Mathf.Lerp(progressBar.value, glbDownloader.progress+progressBarOffset, 0.1f);
+        }
+        else{
+            progressBar.value = 0;
+        }
     }
 
 
@@ -65,7 +73,6 @@ public class AppManager : MonoBehaviour
             StartCoroutine(glbDownloader.DownloadGLBRoutine(url, localPathTmp));
 
             Debug.Log("Monitoring start");
-            // progressBar.gameObject.SetActive(true);
             foreach(glbModel item in items){
                 item.button.interactable = false;
             }
@@ -73,7 +80,6 @@ public class AppManager : MonoBehaviour
 
             Debug.Log("reset UI");
             progressBar.value = 0f;
-            // progressBar.gameObject.SetActive(false);
             foreach(glbModel item in items){
                 item.button.interactable = true;
             }
@@ -94,22 +100,18 @@ public class AppManager : MonoBehaviour
 
     }
 
+
     IEnumerator DisplayMsgError(string msg){
         noteText.text = "Error: " + msg;
         yield return new WaitForSecondsRealtime(3);
         noteText.text = "";
     }
 
+
     bool IsFileExist(glbModel item){
         return item.localPath.Length>0;
     }
 
-
-    void Update(){
-        if(progressBar.IsActive()){
-            progressBar.value = Mathf.Lerp(progressBar.value, glbDownloader.progress, 0.1f);
-        }
-    }
 
 
 

@@ -1993,7 +1993,7 @@ MonoBehaviour:
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
-  m_fontSizeMin: 10
+  m_fontSizeMin: 5
   m_fontSizeMax: 10
   m_fontStyle: 0
   m_HorizontalAlignment: 2
@@ -2070,9 +2070,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96fc1d53117d2bb88ac5220eb40447f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buttonPressed: 0
-  objectTransform: {fileID: 40170167}
-  clearButtonCanvas: {fileID: 2113795519305511961, guid: c5f1652f1190197d69dfb8e6bb252030, type: 3}
+  buttonPressed: 1
+  clearButtonCanvas: {fileID: 4058927033044145172, guid: 0f633faacdfd726abba8afedcc98964b, type: 3}
+  canvasPositionOffset: 0.5
+  objectPositionOffset: 1
+  scaleObjectOffset: 0.2
+  scaleCanvasOffset: 0.8
 --- !u!4 &1540870454
 Transform:
   m_ObjectHideFlags: 0
@@ -2101,7 +2104,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   progress: 0
   errorMsg: 
-  progressBarOffset: 0.05
 --- !u!114 &1540870456
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2116,18 +2118,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - button: {fileID: 1935866784}
-    url: https://ar3a.app/models/helmet.glb
+    url: http://0.0.0.0:4000/helmet.glb
     localPath: 
   - button: {fileID: 1363445322}
     url: https://ar3a.app/models/plant.glb
     localPath: 
   - button: {fileID: 1226828306}
-    url: https://ar3a.app/models/bot.glb
+    url: http://0.0.0.0:4000/bot.glb
     localPath: 
   - button: {fileID: 1041553650}
     url: https://ar3a.app/models/katana.glb
     localPath: 
   progressBar: {fileID: 1514607623}
+  progressBarOffset: 0.05
   noteText: {fileID: 1531462734}
   successDownloadColor: {r: 0.24313726, g: 0.64705884, b: 1, a: 1}
 --- !u!1 &1935866782

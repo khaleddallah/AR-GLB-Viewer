@@ -12,7 +12,6 @@ public class GLBDownloader : MonoBehaviour
     [HideInInspector] public float progress = 0;
     [HideInInspector] public string errorMsg;
 
-    public float progressBarOffset = 0.05f;
 
     private UnityWebRequest uwr;
 
@@ -50,8 +49,8 @@ public class GLBDownloader : MonoBehaviour
 
     public IEnumerator MonitorProgressRoutine(){
         while(uwr!=null){
-            progress = uwr.downloadProgress + progressBarOffset;
-            yield return new WaitForSecondsRealtime(0.05f);
+            progress = uwr.downloadProgress;
+            yield return new WaitForSecondsRealtime(0.03f);
         }
     }
 }
