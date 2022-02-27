@@ -2118,13 +2118,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   items:
   - button: {fileID: 1935866784}
-    url: http://0.0.0.0:4000/helmet.glb
+    url: https://ar3a.app/models/helmet.glb
     localPath: 
   - button: {fileID: 1363445322}
     url: https://ar3a.app/models/plant.glb
     localPath: 
   - button: {fileID: 1226828306}
-    url: http://0.0.0.0:4000/bot.glb
+    url: https://ar3a.app/models/bot.glb
     localPath: 
   - button: {fileID: 1041553650}
     url: https://ar3a.app/models/katana.glb
